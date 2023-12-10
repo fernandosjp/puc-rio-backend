@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 # importando os elementos definidos no modelo
 from models.base import Base
 from models.group import Group
+from models.expense import Expense
 
 
 # url de acesso ao banco (essa é uma url de acesso ao sqlite local)

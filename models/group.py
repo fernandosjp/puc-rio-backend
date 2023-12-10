@@ -14,12 +14,6 @@ class Group(Base):
     created_at = Column(DateTime, default=datetime.now())
     updated_at = Column(DateTime, default=datetime.now())
 
-    # Definição do relacionamento entre o produto e o comentário.
-    # Essa relação é implicita, não está salva na tabela 'produto',
-    # mas aqui estou deixando para SQLAlchemy a responsabilidade
-    # de reconstruir esse relacionamento.
-    # comentarios = relationship("Comentario")
-
     def __init__(self, name:str,
                  created_at:Union[DateTime, None] = None,
                  updated_at:Union[DateTime, None] = None):
