@@ -137,7 +137,7 @@ def del_expense(query: ExpenseSearchSchema):
 
 
 @app.get('/expense_stats', tags=[expense_tag],
-         responses={"200": ExpenseStatsSchema, "404": ErrorSchema})
+         responses={"200": ExpenseStatsViewSchema, "404": ErrorSchema})
 def get_expense_stats():
     """Get expense stats such as total transactions and total value.
 
@@ -162,7 +162,7 @@ def get_expense_stats():
 
 
 @app.get('/expense_stats_timeseries', tags=[expense_tag],
-         responses={"200": ExpenseStatsSchema, "404": ErrorSchema})
+         responses={"200": ExpenseStatsTimeseriesViewSchema, "404": ErrorSchema})
 def get_expense_stats_timeseries():
     """Get expense monthly stats.
 
