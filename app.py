@@ -175,14 +175,14 @@ def get_expense_stats_timeseries():
         session = Session()
         transactions_month = session.query(func.strftime(
             "%Y-%m-01", Expense.created_at), func.count(Expense.id)).group_by(func.strftime(
-                "%Y-%m-01", Expense.created_at)).order_by(Expense.created_at.asc()).limit(number_of_months).all()
+                "%Y-%m-01", Expense.created_at)).order_by(Expense.created_at.desc()).limit(number_of_months).all()
         logger.debug(f"transactions_month: {transactions_month}")
         transaction_data, transaction_categories = create_api_response(
             transactions_month, number_of_months)
 
         value_spent_month = session.query(func.strftime(
             "%Y-%m-01", Expense.created_at), func.sum(Expense.value)).group_by(func.strftime(
-                "%Y-%m-01", Expense.created_at)).order_by(Expense.created_at.asc()).limit(number_of_months).all()
+                "%Y-%m-01", Expense.created_at)).order_by(Expense.created_at.desc()).limit(number_of_months).all()
         logger.debug(f"value_spent_month: {value_spent_month}")
         value_spent_data, value_spent_categories = create_api_response(
             value_spent_month, number_of_months)
