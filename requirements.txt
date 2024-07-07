@@ -19,3 +19,4 @@ zipp==3.17.0
 pandas==2.0.3
 Flask-Cors==4.0.1
 psycopg2==2.9.9
+coinoxr==0.0.1a
