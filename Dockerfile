@@ -6,11 +6,10 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install SQLite
+# Install postgresql-client and populate test database
 RUN apt-get update
-RUN apt-get install -y sqlite3
-RUN mkdir database
-RUN sqlite3 database/db.sqlite3 < populate_test_db.sql
+RUN apt-get install -y postgresql-client
+RUN psql -h database -U postgres -d splitfy -a -f populate_test_db.sql
 
 EXPOSE 5000
 

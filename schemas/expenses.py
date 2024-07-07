@@ -8,7 +8,7 @@ class ExpenseSchema(BaseModel):
     """
     description: str = "Expense 1"
     category: str = "Category 1"
-    value: float = 1.0
+    value_usd: float = 1.0
     created_at: str = "2021-01-01"
 
 class ExpenseSearchSchema(BaseModel):
@@ -20,7 +20,8 @@ class ExpenseViewSchema(BaseModel):
     id: int = 1
     description: str = "Expense 1"
     category: str = "Category 1"
-    value: float = 1.0
+    value_usd: float = 1.0
+    value_brl: float = 1.0
     created_at: str = "2021-01-01"
     updated_at: str = "2021-01-01"
 
@@ -31,7 +32,8 @@ def view_expense(expense: Expense):
         "id": expense.id,
         "description": expense.description,
         "category": expense.category,
-        "value": expense.value,
+        "value_usd": expense.value_usd,
+        "value_brl": expense.value_brl,
         "created_at": expense.created_at.strftime("%Y-%m-%d"),
         "updated_at": expense.updated_at.strftime("%Y-%m-%d")
     }
@@ -54,8 +56,10 @@ class ExpenseStatsViewSchema(BaseModel):
     """
     total_transactions: int = 0
     total_transactions_perc: float = 0.0
-    total_value: float = 0.0
-    total_value_perc: float = 0.0
+    total_value_usd: float = 0.0
+    total_value_usd_perc: float = 0.0
+    total_value_brl: float = 0.0
+    total_value_brl_perc: float = 0.0
 
 class ExpenseStatsTimeseriesViewSchema(BaseModel):
     """ Define how new expense stats timeseries will be represented
