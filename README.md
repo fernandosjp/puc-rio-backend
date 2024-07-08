@@ -15,13 +15,19 @@ $ export OPEN_FOREX_KEY=APP_ID
 Steps to run backend on dev mode:
 
 Install dependencies with the following command:
-```(env)$ pip install -r requirements.txt```
+```
+(env)$ pip install -r requirements.txt
+```
 
 Create PostgreSQL container from [compose repo](https://github.com/fernandosjp/puc-rio-compose):
-```$ docker-compose up db```
+```
+$ docker-compose up db
+```
 
 Export connection string to PostgreSQL database:
-```$ export DB_URL=postgresql://postgres:password@localhost:5432/splitfy```
+```
+$ export DB_URL=postgresql://postgres:password@localhost:5432/splitfy
+```
 
 To start the API execute:
 ```
