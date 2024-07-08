@@ -11,6 +11,15 @@ class ExpenseSchema(BaseModel):
     value_usd: float = 1.0
     created_at: str = "2021-01-01"
 
+class ExpenseEditSchema(BaseModel):
+    """ Define how expense will be edit
+    """
+    id: int = 1
+    description: str = "Expense 1"
+    category: str = "Category 1"
+    value_usd: float = 1.0
+    created_at: str = "2021-01-01"
+
 class ExpenseSearchSchema(BaseModel):
     id: Optional[int] = 1
 
@@ -50,19 +59,3 @@ def view_expense_list(expenses):
 class ExpenseDeleteSchema(BaseModel):
     message: str
     id: int
-
-class ExpenseStatsViewSchema(BaseModel):
-    """ Define how new expense stats will be represented
-    """
-    total_transactions: int = 0
-    total_transactions_perc: float = 0.0
-    total_value_usd: float = 0.0
-    total_value_usd_perc: float = 0.0
-    total_value_brl: float = 0.0
-    total_value_brl_perc: float = 0.0
-
-class ExpenseStatsTimeseriesViewSchema(BaseModel):
-    """ Define how new expense stats timeseries will be represented
-    """
-    transactions: Dict[str, Union[int, str]]
-    value: Dict[str, Union[float, str]]

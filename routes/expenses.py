@@ -5,7 +5,7 @@ from logger import logger
 
 from sqlalchemy.exc import IntegrityError
 
-from schemas import ExpenseSchema, ExpenseViewSchema, ErrorSchema, ExpenseSearchSchema, ExpenseListViewSchema, ExpenseDeleteSchema
+from schemas import ExpenseSchema, ExpenseEditSchema, ExpenseViewSchema, ErrorSchema, ExpenseSearchSchema, ExpenseListViewSchema, ExpenseDeleteSchema
 from schemas import view_expense_list, view_expense
 from models import Session, Expense
 
@@ -55,7 +55,47 @@ def add_expense(form: ExpenseSchema):
         # caso um erro fora do previsto
         error_msg = "Not possible to save item :/"
         logger.warning(
-            f"Error adding expense named: '{expense.description}', Exception:{e}")
+            f"Error adding expense.', Exception:{e}")
+        return {"mesage": error_msg}, 400
+
+@expenses_api.put('/expenses', tags=[expense_tag],
+          responses={"200": ExpenseViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def edit_expense(form: ExpenseEditSchema):
+    """Edit existing Expense to the database
+
+    Return representation of edited expense.
+    """
+    try:
+        session = Session()
+        expense = session.query(Expense).filter(Expense.id == form.id).first()
+        logger.debug(
+            f"Editing expense named: '{expense.description}' at {expense.created_at}")
+
+        usd_to_brl = forex.get_forex_usd_brl(form.created_at)
+        expense.description = form.description
+        expense.category = form.category
+        expense.value_usd = float(form.value_usd)
+        expense.value_brl = float(form.value_usd)*float(usd_to_brl)
+        expense.created_at = datetime.strptime(form.created_at, "%Y-%m-%d")
+        expense.updated_at = datetime.now()
+
+        session.add(expense)
+        session.commit()
+        logger.debug(f"Edited expense named: '{expense.description}'")
+        return view_expense(expense), 200
+
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Expense of same name already saved :/"
+        logger.warning(
+            f"Error adding expense named: '{expense.description}', {error_msg}")
+        return {"mesage": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Not possible to edit item :/"
+        logger.warning(
+            f"Error editing expense', Exception:{e}")
         return {"mesage": error_msg}, 400
 
 
