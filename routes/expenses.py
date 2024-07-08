@@ -1,6 +1,5 @@
 from flask_openapi3 import Tag
 from flask_openapi3 import APIBlueprint
-
 from datetime import datetime
 from logger import logger
 
@@ -10,9 +9,12 @@ from schemas import ExpenseSchema, ExpenseViewSchema, ErrorSchema, ExpenseSearch
 from schemas import view_expense_list, view_expense
 from models import Session, Expense
 
+from forex import Forex
+
 expense_tag = Tag(
     name="Expenses", description="Add, visualize and remove expenses")
 expenses_api = APIBlueprint('/expenses', __name__, url_prefix='', abp_tags=[expense_tag])
+forex = Forex()
 
 # ==============================|| Expense Endpoints ||============================== #
 
@@ -23,17 +25,19 @@ def add_expense(form: ExpenseSchema):
 
     Return representation of expense added.
     """
-    expense = Expense(
-        description=form.description,
-        category=form.category,
-        value_usd=float(form.value_usd),
-        # Call exchange rates API to get the current exchange rate
-        value_brl=float(form.value_usd)*5,
-        created_at=datetime.strptime(form.created_at, "%Y-%m-%d"),
-    )
-    logger.debug(
-        f"Add expense named: '{expense.description}' at {expense.created_at}")
     try:
+        usd_to_brl = forex.get_forex_usd_brl(form.created_at)
+
+        expense = Expense(
+            description=form.description,
+            category=form.category,
+            value_usd=float(form.value_usd),
+            value_brl=float(form.value_usd)*float(usd_to_brl),
+            created_at=datetime.strptime(form.created_at, "%Y-%m-%d"),
+        )
+        logger.debug(
+            f"Add expense named: '{expense.description}' at {expense.created_at}")
+    
         session = Session()
         session.add(expense)
         session.commit()

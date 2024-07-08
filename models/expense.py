@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from typing import Union
 
-from  models import Base
+from models import Base
 
 
 class Expense(Base):
