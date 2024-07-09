@@ -1,6 +1,6 @@
-# Backend Finance Manager
+# Splitfy Backend
 
-Finance Manager backend API. To check API documentation on Swagger follow the instructions to get the server running and then [click here](http://127.0.0.1:5000/openapi/swagger#/).
+Splitfy backend API. To check API documentation on Swagger follow the instructions to get the server running and then [click here](http://127.0.0.1:5000/openapi/swagger#/).
 
 ---
 ## External Services
@@ -14,7 +14,7 @@ $ export OPEN_FOREX_KEY=APP_ID
 ## Installation and Usage
 Steps to run backend on dev mode:
 
-Install dependencies with the following command:
+Install dependencies with the following command (using virtualenv is reccomended):
 ```
 (env)$ pip install -r requirements.txt
 ```
